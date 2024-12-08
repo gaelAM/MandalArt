@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MandalArt</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Pantalla de selección de mandalas -->
+    <div id="home" class="screen active">
+      <h1>MandalArt</h1>
+      <div class="gallery" id="gallery">
+        <p>Selecciona un mandala para pintar:</p>
+        <img src="images/mandala1.jpg" alt="Mandala 1" class="mandala" onclick="openEditor('images/mandala1.jpg')">
+        <img src="images/mandala2.jpg" alt="Mandala 2" class="mandala" onclick="openEditor('images/mandala2.jpg')">
+        <img src="images/mandala3.jpg" alt="Mandala 3" class="mandala" onclick="openEditor('images/mandala3.jpg')">
+        <img src="images/mandala4.jpg" alt="Mandala 1" class="mandala" onclick="openEditor('images/mandala.jpg')">
+        <img src="images/mandala5.jpg" alt="Mandala 2" class="mandala" onclick="openEditor('images/mandala5.jpg')">
+        <img src="images/mandala6.jpg" alt="Mandala 3" class="mandala" onclick="openEditor('images/mandala6.jpg')">
+        <img src="images/mandala7.jpg" alt="Mandala 1" class="mandala" onclick="openEditor('images/mandala7.jpg')">
+        <img src="images/mandala8.jpg" alt="Mandala 2" class="mandala" onclick="openEditor('images/mandala8.jpg')">
+        <img src="images/mandala9.jpg" alt="Mandala 3" class="mandala" onclick="openEditor('images/mandala9.jpg')">
+        <img src="images/mandala10.jpg" alt="Mandala 3" class="mandala" onclick="openEditor('images/mandala10.jpg')">
+        <p>Mandalas Guardados Recientemente</p>
+      </div>
+    </div>
+  </div>
+
+ <!-- Menú contextual -->
+<div id="contextMenu" class="context-menu">
+  <button onclick="selectAll()">
+    Seleccionar todo <i class="fas fa-check-circle"></i>
+  </button>
+  <button onclick="deleteSelected()">
+    Borrar <i class="fas fa-trash-alt"></i>
+  </button>
+  <button onclick="closeContextMenu()">
+    Cerrar <i class="fas fa-times"></i>
+  </button>
+</div>
+
+
+  <script>
+    function openEditor(mandalaName) {
+      localStorage.setItem('selectedMandala', mandalaName);
+      window.location.href = 'juego2.html';
+    }
+
+    window.onload = () => {
+      const gallery = document.getElementById('gallery');
+      const savedMandalas = JSON.parse(localStorage.getItem('savedMandalas')) || [];
+
+      // Ordenar mandalas guardados por fecha de creación (más recientes primero)
+      savedMandalas.reverse().forEach(mandalaDataURL => {
+        const img = document.createElement('img');
+        img.src = mandalaDataURL;
+        img.className = 'mandala saved';
+        img.onclick = () => openEditor(mandalaDataURL);
+        img.oncontextmenu = (event) => {
+          event.preventDefault();
+          openContextMenu(event, img);
+        };
+        gallery.appendChild(img);
+      });
+    };
+
+    function openContextMenu(event, img) {
+      const contextMenu = document.getElementById('contextMenu');
+      contextMenu.style.top = `${event.clientY}px`;
+      contextMenu.style.left = `${event.clientX}px`;
+      contextMenu.style.display = 'block';
+      img.classList.add('selected');
+    }
+
+    function closeContextMenu() {
+      const contextMenu = document.getElementById('contextMenu');
+      contextMenu.style.display = 'none';
+      document.querySelectorAll('.mandala.selected').forEach(img => img.classList.remove('selected'));
+    }
+
+    function selectAll() {
+      document.querySelectorAll('.mandala.saved').forEach(img => img.classList.add('selected'));
+    }
+
+    function deleteSelected() {
+      const selectedImages = document.querySelectorAll('.mandala.selected');
+      const savedMandalas = JSON.parse(localStorage.getItem('savedMandalas')) || [];
+      const updatedMandalas = savedMandalas.filter(mandalaDataURL => {
+        return ![...selectedImages].some(img => img.src === mandalaDataURL);
+      });
+
+      localStorage.setItem('savedMandalas', JSON.stringify(updatedMandalas));
+      selectedImages.forEach(img => img.remove());
+      closeContextMenu();
+    }
+  </script>
+</body>
+</html>

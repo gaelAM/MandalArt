@@ -1,0 +1,235 @@
+/* Reset de estilos básicos */
+*:focus {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Tipografía moderna */
+  background-color: #1e3a66; /* Azul oscuro para el fondo principal */
+  color: #d9eaf7; /* Texto en un azul claro */
+}
+
+/* Contenedor principal */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.screen {
+  display: none;
+  padding: 20px;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* Encabezados */
+#home h1,
+#editor h1 {
+  font-size: 28px;
+  text-align: center;
+  color: #c5eaff; /* Azul vibrante */
+  margin-bottom: 20px;
+}
+
+p{
+  font-size: 18px;
+  text-align: center;
+  color: #ffffff; /* Azul vibrante */
+  margin-bottom: 20px;
+}
+
+/* Galería */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.mandala {
+  width: 90%;
+  margin: 10px 0;
+  cursor: pointer;
+  border: 3px solid #55c1ff; /* Azul medio */
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mandala:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.mandala.selected {
+  border-color: #ffffff; /* Azul vibrante para resaltar */
+  box-shadow: 0 4px 6px rgba(74, 144, 226, 0.5);
+}
+
+/* Editor */
+#editor {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: -10px;
+}
+
+#toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: #2a4d7d; /* Azul intermedio */
+  padding: 15px;
+  border-bottom: 2px solid #1e3a66; /* Azul oscuro */
+  gap: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.toolbar-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+#toolbar button {
+  background: none;
+  border: 2px solid #55c1ff; /* Azul vibrante */
+  border-radius: 25%;
+  font-size: 24px;
+  cursor: pointer;
+  color: #d9eaf7; /* Texto claro */
+  padding: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#toolbar button:hover {
+  background-color: #4a90e2; /* Fondo azul vibrante */
+  color: #ffffff; /* Texto blanco */
+}
+
+.paleta-color {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto;
+}
+
+/* Contenedor del Canvas */
+#canvasContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#canvas {
+  display: block;
+  border: 1px solid #3c6eae; /* Azul medio */
+  cursor: crosshair;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Botón de retroceso */
+#backButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #d9eaf7; /* Texto claro */
+  transition: color 0.3s ease;
+}
+
+#backButton:hover {
+  color: #4a90e2; /* Azul vibrante */
+}
+
+/* Menú contextual */
+.context-menu {
+  display: none;
+  position: fixed;
+  background-color: #2a4d7d; /* Azul intermedio */
+  border: 2px solid #1e3a66;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 200px;
+}
+
+.context-menu button {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #f3f9ff; /* Texto claro */
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.context-menu button:hover {
+  background-color: #4a90e2;
+  transform: scale(1.02);
+}
+
+.context-menu button i {
+  margin-left: 5px;
+}
+
+/* Notificaciones */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #3c6eae; /* Azul medio */
+  color: #d9eaf7; /* Texto claro */
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  font-size: 16px;
+  animation: fadeInOut 3s ease-in-out forwards;
+  z-index: 1000;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Adaptabilidad para móviles */
+@media (max-width: 600px) {
+  #toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .context-menu {
+    transform: translateX(-50%);
+  }
+}
